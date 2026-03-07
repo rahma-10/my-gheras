@@ -27,6 +27,14 @@ const userModel = new mongoose.Schema({
         minLength:8
     },
 
+    passwordChangedAt: Date,
+    passwordResetCode: String,
+    passwordResetExpires: Date,
+    passwordVerified: {
+        type: Boolean,
+        default: false
+    },
+
     firstName:{
         type:String,
         required:true,
