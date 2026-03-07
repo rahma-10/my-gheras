@@ -1,9 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const crypto =require('crypto') // bulit in Node for encryption
 
 let userModel = require('../models/user')
-
+let sendEmail = require('../utils/sendEmail')
 
 let registerUser = async (req, res) =>{
     try{
@@ -27,7 +28,7 @@ let registerUser = async (req, res) =>{
 let getUsersNames = async (req, res) => {
     try{
     
-        const users = await userModel.find().select('firstName')
+        const users = await userModel.find().select('firstName , email')
         res.status(200).json(users)
 
 
@@ -156,26 +157,57 @@ let updatePassword = async(req, res)=>{
 //مكتبه تأكيد عبر الايميل
 let forgetPassword = async(req, res)=>{
 
-    let { email, username, newPassword } = req.body;
+    let { email } = req.body;
 
-    try{
-        let user = await userModel.findOne({email: email, username:username})
+        let user = await userModel.findOne({email: email})
 
         if(!user){
-           return res.status(404).json({message:"No such user"})
+           return res.status(404).json({message:"No User with this email "})
         }
 
-        if(user.email == EnteredEmail && user.username == EnteredUsername){
-            
-            user.password = EnteredNewPassword
-            await user.save()
-            return res.status(200).json({message:"Your password has been updated"})
+        
+        const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+        const hashResetCode = crypto.createHash('sha256') // sha256 this algorithm
+               .update('resetCode')
+               .digest('hex');
+        user.resetCode = hashResetCode;
+            // console.log(resetCode)
+            // console.log(hashResetCode)
 
-        }
-    }catch(eror){
-        res.status(403).json({message:"there is an error", error: err.message})
+        // save hashed reset code in database
+        user.passwordResetCode = hashResetCode;
+        user.passwordResetExpires = Date.now() + 10 * 60 * 1000 ;  // code expires afrt (10 min)
+        user.passwordVerified = false;
+        user.save()
+
+
+        const message = `
+        <h2>Hi ${user.firstName}</h2>
+
+        <p>You received a request for a password reset on <b>Gheras Website</b></p>
+
+        <h1 style="color:green;">${resetCode}</h1>
+
+        <p>This code will expire in 10 minutes.</p>
+
+        <p>Best regards,<br>Gheras Team</p>
+        `;
+try{
+    await sendEmail({
+        email: user.email,
+        subject: "Password Reset Code Vaild for 10 minutes",
+        message: message
+    })
+
+    res.status(200).json({message:"Reset code sent to your email"})   
+    }catch(err){
+        user.passwordResetCode = undefined;
+        user.passwordResetExpires = undefined;
+        user.passwordVerified = undefined;
+        await user.save();
+
+        res.status(500).json({message:"Error sending email", error: err.message})
     }
-
 }
 
 module.exports = {registerUser, getUsersNames, updateUser, deleteUser, login,updatePassword, forgetPassword, getUserById}

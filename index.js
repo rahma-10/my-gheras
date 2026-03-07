@@ -8,7 +8,7 @@ let usersRoutes = require('./routes/user')
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;  nn
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors()); 
