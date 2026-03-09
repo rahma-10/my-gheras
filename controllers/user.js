@@ -1,10 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-<<<<<<< Updated upstream
-=======
 const crypto = require('crypto') // bulit in Node for encryption
->>>>>>> Stashed changes
 
 let userModel = require('../models/user')
 
@@ -77,15 +74,9 @@ let verifyEmail = async (req, res) => {
 
 
 let getUsersNames = async (req, res) => {
-<<<<<<< Updated upstream
-    try{
-    
-        const users = await userModel.find().select('firstName')
-=======
     try {
 
         const users = await userModel.find().select('firstName , email')
->>>>>>> Stashed changes
         res.status(200).json(users)
 
 
@@ -220,24 +211,6 @@ let forgetPassword = async (req, res) => {
 
     let { email, username, newPassword } = req.body;
 
-<<<<<<< Updated upstream
-    try{
-        let user = await userModel.findOne({email: email, username:username})
-
-        if(!user){
-           return res.status(404).json({message:"No such user"})
-        }
-
-        if(user.email == EnteredEmail && user.username == EnteredUsername){
-            
-            user.password = EnteredNewPassword
-            await user.save()
-            return res.status(200).json({message:"Your password has been updated"})
-
-        }
-    }catch(eror){
-        res.status(403).json({message:"there is an error", error: err.message})
-=======
     let user = await userModel.findOne({ email: email })
 
     if (!user) {
@@ -252,14 +225,9 @@ let forgetPassword = async (req, res) => {
 
     // save hashed reset code in database
     user.verificationCode = hashResetCode;
-    // console.log(resetCode)
-    // console.log(hashResetCode)
-
-    // save hashed reset code in database
-    user.verificationCode = hashResetCode;
     user.verificationCodeExpires = Date.now() + 10 * 60 * 1000;  // code expires afrt (10 min)
     user.passwordVerified = false;
-    user.save()
+    await user.save()
 
 
     const message = `
@@ -288,9 +256,7 @@ let forgetPassword = async (req, res) => {
         await user.save();
 
         res.status(500).json({ message: "Error sending email", error: err.message })
->>>>>>> Stashed changes
     }
-
 }
 
 

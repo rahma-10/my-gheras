@@ -27,11 +27,6 @@ const userModel = new mongoose.Schema({
         minLength: 8
     },
 
-<<<<<<< Updated upstream
-    firstName:{
-        type:String,
-        required:true,
-=======
     passwordChangedAt: Date,
     passwordResetCode: String,
     passwordResetExpires: Date,
@@ -43,7 +38,7 @@ const userModel = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
->>>>>>> Stashed changes
+
         minLength: 3,
         maxLength: 15,
     },

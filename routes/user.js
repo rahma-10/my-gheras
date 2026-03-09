@@ -19,13 +19,9 @@ Router.get('/', authentication, authorization("admin"), getUsersNames)
 Router.get('/:id', authentication, authorization("admin"), getUserById)
 Router.patch('update-user/:id', authentication, authorization("admin", "user"), updateUser)
 
-<<<<<<< Updated upstream
-Router.patch("/", forgetPassword)
-=======
 Router.patch("/forget-password", forgetPassword)
 Router.patch('/verify-password', verifyEmailAndResetPassword)
 
->>>>>>> Stashed changes
 
 
 module.exports = Router
