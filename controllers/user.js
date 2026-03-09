@@ -3,8 +3,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto') // bulit in Node for encryption
 
-let userModel = require('../models/user')
 
+let userModel = require('../models/user')
+let sendEmail = require('../utils/sendEmail')
 
 let registerUser = async (req, res) => {
     try {
@@ -74,8 +75,8 @@ let verifyEmail = async (req, res) => {
 
 
 let getUsersNames = async (req, res) => {
-    try {
 
+    try{
         const users = await userModel.find().select('firstName , email')
         res.status(200).json(users)
 
@@ -209,7 +210,7 @@ let updatePassword = async (req, res) => {
 //مكتبه تأكيد عبر الايميل
 let forgetPassword = async (req, res) => {
 
-    let { email, username, newPassword } = req.body;
+    let { email } = req.body;
 
     let user = await userModel.findOne({ email: email })
 
