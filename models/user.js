@@ -23,8 +23,17 @@ const userModel = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
+        required: function () {
+            return !this.googleId; // Required ONLY if not using Google login
+        },
         minLength: 8
+    },
+
+    googleId: {
+        type: String,
+        required: false,
+        unique: true,
+        sparse: true // Allows multiple users to have null googleId
     },
 
     passwordChangedAt: Date,
