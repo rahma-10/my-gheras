@@ -2,23 +2,40 @@ const express = require("express");
 const router = express.Router();
 
 const blogController = require("../controllers/blogController");
-const upload = require("../Middlewares/upload"); // multer
+const upload = require("../Middlewares/upload");
 
-// Create Blog (POST /api/blogs)
-// image: input name "image"
-router.post("/blogs", upload.single("image"), blogController.createBlog);
+const { authentication, authorization } = require("../Middlewares/authentication");
 
-// Get All Blogs (GET /api/blogs)
+// Create Blog (Admin only)
+router.post(
+  "/blogs",
+  authentication,
+  authorization("admin"),
+  upload.single("image"),
+  blogController.createBlog
+);
+
+// Get All Blogs (Public)
 router.get("/blogs", blogController.getBlogs);
 
-// Get Blog by Slug (GET /api/blogs/:slug)
+// Get Blog by Slug (Public)
 router.get("/blogs/:slug", blogController.getBlogBySlug);
 
-// Update Blog (PUT /api/blogs/:id)
-// image: input name "image" (optional)
-router.put("/blogs/:id", upload.single("image"), blogController.updateBlog);
+// Update Blog (Admin only)
+router.put(
+  "/blogs/:id",
+  authentication,
+  authorization("admin"),
+  upload.single("image"),
+  blogController.updateBlog
+);
 
-// Delete Blog (DELETE /api/blogs/:id)
-router.delete("/blogs/:id", blogController.deleteBlog);
+// Delete Blog (Admin only)
+router.delete(
+  "/blogs/:id",
+  authentication,
+  authorization("admin"),
+  blogController.deleteBlog
+);
 
 module.exports = router;

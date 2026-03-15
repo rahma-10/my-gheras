@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, "العنوان مطلوب"],
+        required: [true, "Title is required"],
         trim: true
     },
 
@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema({
 
     content: {
         type: String,
-        required: [true, "محتوى المقال مطلوب"]
+        required: [true, "Blog content is required"]
     },
 
     image: {
@@ -26,14 +26,14 @@ const blogSchema = new mongoose.Schema({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        required: [true, "Author is required"]
     },
 
     tags: [String],
 
     category: {
         type: String,
-        required: true
+        required: [true, "Category is required"]
     },
 
     isPublished: {
@@ -49,10 +49,10 @@ blogSchema.pre("save", function (next) {
 
     this.slug = this.title
         .toLowerCase()
-        .replace(/[^\w\u0621-\u064A\s]/g, "")
+        .replace(/[^\w\s]/g, "")
         .replace(/\s+/g, "-");
 
-    next();
+ 
 });
 
 module.exports = mongoose.model("Blog", blogSchema);
