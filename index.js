@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -13,6 +14,7 @@ const plantRoutes = require("./routes/plant");
 const fertilizerRoutes = require("./routes/fertilize");
 const diseaseRoutes = require("./routes/disease");
 const dashboardRoutes = require("./routes/dashboard");
+const blogRoutes = require("./routes/blogRoutes");
 
 
 // call error handling
@@ -42,6 +44,10 @@ app.use("/api/fertilizers", fertilizerRoutes);
 app.use("/api/diseases", diseaseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use("/api", blogRoutes);
+
+
+
 
 
 // error not found  404 
@@ -57,12 +63,13 @@ app.use(globalError);
 const dbURI = process.env.MONGO_URI;
 mongoose.connect(dbURI)
     .then(() => {
-        console.log("Connected to MongoDB Atlas successfully!");
+        console.log("Connected to MongoDB successfully!");
     })
     .catch((err) => {
         console.error("Connection error:", err.message);
     });
 
+// Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
