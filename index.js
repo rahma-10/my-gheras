@@ -13,6 +13,8 @@ const plantRoutes = require("./routes/plant");
 const fertilizerRoutes = require("./routes/fertilize");
 const diseaseRoutes = require("./routes/disease");
 const dashboardRoutes = require("./routes/dashboard");
+const postRoutes = require("./routes/post");
+const commentRoutes = require("./routes/comment");
 
 
 // call error handling
@@ -42,6 +44,8 @@ app.use("/api/fertilizers", fertilizerRoutes);
 app.use("/api/diseases", diseaseRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use("/posts", postRoutes);
+app.use("/comments",commentRoutes);
 
 
 // error not found  404 

@@ -1,58 +1,97 @@
 const Disease = require("../models/disease");
+const Plant = require("../models/plant");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
-exports.getAllDiseases = async (req, res) => {
-    try {
-    const diseases = await Disease.find().populate("affectedPlants");
+// 1. Get All Diseases (Pagination & Limited Fields)
+exports.getAllDiseases = catchAsync(async (req, res, next) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    res.json(diseases);
-    } catch (error) {
-    res.status(500).json({ message: error.message });
-    }
-};
+    const diseases = await Disease.find()
+        .populate("affectedPlants", "name image")
+        .skip(skip)
+        .limit(limit);
 
-exports.getDiseaseById = async (req, res) => {
-    try {
+    res.status(200).json({
+        status: "success",
+        results: diseases.length,
+        data: { diseases }
+    });
+});
+
+// 2. Get Disease By ID
+exports.getDiseaseById = catchAsync(async (req, res, next) => {
     const disease = await Disease.findById(req.params.id)
-        .populate("affectedPlants");
+        .populate("affectedPlants", "name image");
 
-    res.json(disease);
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (!disease) {
+        return next(new AppError("No disease found with that ID", 404));
     }
-};
 
-exports.createDisease = async (req, res) => {
-    try {
-    const disease = new Disease(req.body);
+    res.status(200).json({
+        status: "success",
+        data: { disease }
+    });
+});
 
-    const saved = await disease.save();
+// 3. Create Disease (Sync with Plants)
+exports.createDisease = catchAsync(async (req, res, next) => {
+    
+    const saved = await Disease.create(req.body);
 
-    res.status(201).json(saved);
-    } catch (error) {
-    res.status(400).json({ message: error.message });
+    
+    if (req.body.affectedPlants?.length) {
+        await Plant.updateMany(
+            { _id: { $in: req.body.affectedPlants } },
+            { $addToSet: { diseases: saved._id } }
+        );
     }
-};
 
-exports.updateDisease = async (req, res) => {
-    try {
+    res.status(201).json({
+        status: "success",
+        data: { disease: saved }
+    });
+});
+
+// 4. Update Disease
+exports.updateDisease = catchAsync(async (req, res, next) => {
     const disease = await Disease.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
+        req.params.id, 
+        req.body, 
+        {
+            new: true,
+            runValidators: true 
+        }
     );
 
-    res.json(disease);
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (!disease) {
+        return next(new AppError("No disease found with that ID", 404));
     }
-};
 
-exports.deleteDisease = async (req, res) => {
-    try {
-    await Disease.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+        status: "success",
+        data: { disease }
+    });
+});
 
-    res.json({ message: "Disease deleted" });
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+// 5. Delete Disease (Cleanup References)
+exports.deleteDisease = catchAsync(async (req, res, next) => {
+    const disease = await Disease.findByIdAndDelete(req.params.id);
+
+    if (!disease) {
+        return next(new AppError("No disease found with that ID", 404));
     }
-};
+
+    
+    await Plant.updateMany(
+        { diseases: disease._id },
+        { $pull: { diseases: disease._id } }
+    );
+
+    res.status(204).json({
+        status: "success",
+        data: null
+    });
+});
