@@ -27,10 +27,10 @@ exports.getAllDiseases = async (req, res) => {
     }
 };
 
-exports.getDiseaseById = async (req, res) => {
-    try {
+// 2. Get Disease By ID
+exports.getDiseaseById = catchAsync(async (req, res, next) => {
     const disease = await Disease.findById(req.params.id)
-        .populate("affectedPlants");
+        .populate("affectedPlants", "name image");
 
     if (!disease) {
         return res.status(404).json({ message: "Disease not found" });
@@ -40,7 +40,6 @@ exports.getDiseaseById = async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: error.message });
     }
-};
 
 exports.createDisease = async (req, res) => {
     try {
@@ -61,7 +60,6 @@ exports.createDisease = async (req, res) => {
     } catch (error) {
     res.status(400).json({ message: error.message });
     }
-};
 
 exports.updateDisease = async (req, res) => {
     try {
@@ -69,9 +67,12 @@ exports.updateDisease = async (req, res) => {
         req.body.image = "uploads/" + req.file.filename;
     }
     const disease = await Disease.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true }
+        req.params.id, 
+        req.body, 
+        {
+            new: true,
+            runValidators: true 
+        }
     );
 
     if (!disease) {
@@ -82,7 +83,6 @@ exports.updateDisease = async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: error.message });
     }
-};
 
 exports.deleteDisease = async (req, res) => {
     try {
@@ -97,8 +97,18 @@ exports.deleteDisease = async (req, res) => {
         { $pull: { diseases: deletedDisease._id } }
     );
 
-    res.json({ message: "Disease deleted" });
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (!disease) {
+        return next(new AppError("No disease found with that ID", 404));
     }
-};
+
+    
+    await Plant.updateMany(
+        { diseases: disease._id },
+        { $pull: { diseases: disease._id } }
+    );
+
+    res.status(204).json({
+        status: "success",
+        data: null
+    });
+});

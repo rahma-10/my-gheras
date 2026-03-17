@@ -33,21 +33,32 @@ exports.getAllPlants = async (req, res) => {
     }
 };
 
-exports.getPlantById = async (req, res) => {
-    try {
+// 2. Get Plant By ID
+exports.getPlantById = catchAsync(async (req, res, next) => {
     const plant = await Plant.findById(req.params.id)
-        .populate("fertilizers")
-        .populate("diseases");
+        .populate("fertilizers", "name image")
+        .populate("diseases", "name image");
 
     if (!plant) {
-        return res.status(404).json({ message: "Plant not found" });
+        return next(new AppError("No plant found with that ID", 404));
     }
 
-    res.json(plant);
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(200).json({
+        status: "success",
+        data: { plant }
+    });
+});
+
+// 3. Create Plant (With Mutual Relationship Sync)
+exports.createPlant = catchAsync(async (req, res, next) => {
+    const savedPlant = await Plant.create(req.body);
+
+    if (req.body.diseases?.length) {
+        await Disease.updateMany(
+            { _id: { $in: req.body.diseases } },
+            { $addToSet: { affectedPlants: savedPlant._id } }
+        );
     }
-};
 
 exports.createPlant = async (req, res) => {
     try {
@@ -98,7 +109,6 @@ exports.updatePlant = async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: error.message });
     }
-};
 
 exports.deletePlant = async (req, res) => {
     try {
@@ -120,8 +130,34 @@ exports.deletePlant = async (req, res) => {
         { $pull: { suitablePlants: deletedPlant._id } }
     );
 
-    res.json({ message: "Plant deleted successfully" });
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(200).json({
+        status: "success",
+        data: { plant }
+    });
+});
+
+// 5. Delete Plant (With Relationship Cleanup)
+exports.deletePlant = catchAsync(async (req, res, next) => {
+    const plant = await Plant.findByIdAndDelete(req.params.id);
+
+    if (!plant) {
+        return next(new AppError("No plant found with that ID", 404));
     }
-};
+
+    
+    await Disease.updateMany(
+        { affectedPlants: plant._id },
+        { $pull: { affectedPlants: plant._id } }
+    );
+
+    
+    await Fertilizer.updateMany(
+        { suitablePlants: plant._id },
+        { $pull: { suitablePlants: plant._id } }
+    );
+
+    res.status(204).json({
+        status: "success",
+        data: null
+    });
+});

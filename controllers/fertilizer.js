@@ -27,10 +27,10 @@ exports.getAllFertilizers = async (req, res) => {
     }
 };
 
-exports.getFertilizerById = async (req, res) => {
-    try {
+// 2. Get Fertilizer By ID
+exports.getFertilizerById = catchAsync(async (req, res, next) => {
     const fertilizer = await Fertilizer.findById(req.params.id)
-        .populate("suitablePlants");
+        .populate("suitablePlants", "name image");
 
     if (!fertilizer) {
         return res.status(404).json({ message: "Fertilizer not found" });
@@ -40,7 +40,6 @@ exports.getFertilizerById = async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: error.message });
     }
-};
 
 exports.createFertilizer = async (req, res) => {
     try {
@@ -61,7 +60,6 @@ exports.createFertilizer = async (req, res) => {
     } catch (error) {
     res.status(400).json({ message: error.message });
     }
-};
 
 exports.updateFertilizer = async (req, res) => {
     try {
@@ -71,7 +69,10 @@ exports.updateFertilizer = async (req, res) => {
     const fertilizer = await Fertilizer.findByIdAndUpdate(
         req.params.id,
         req.body,
-        { new: true }
+        { 
+            new: true, 
+            runValidators: true 
+        }
     );
 
     if (!fertilizer) {
@@ -82,7 +83,6 @@ exports.updateFertilizer = async (req, res) => {
     } catch (error) {
     res.status(500).json({ message: error.message });
     }
-};
 
 exports.deleteFertilizer = async (req, res) => {
     try {
@@ -97,8 +97,17 @@ exports.deleteFertilizer = async (req, res) => {
         { $pull: { fertilizers: deletedFertilizer._id } }
     );
 
-    res.json({ message: "Fertilizer deleted" });
-    } catch (error) {
-    res.status(500).json({ message: error.message });
+    if (!fertilizer) {
+        return next(new AppError("No fertilizer found with that ID", 404));
     }
-};
+
+    await Plant.updateMany(
+        { fertilizers: fertilizer._id },
+        { $pull: { fertilizers: fertilizer._id } }
+    );
+
+    res.status(204).json({
+        status: "success",
+        message: "Fertilizer deleted and references removed"
+    });
+});
