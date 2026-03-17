@@ -99,7 +99,16 @@ let getUserById = async (req, res) => {
 let updateUser = async (req, res) => {
     try {
         const userId = req.params.id
-        const updates = req.body
+        
+        // Allowed fields to update
+        const allowedUpdates = ['firstName', 'lastName', 'username', 'avatar'];
+        const updates = {};
+        
+        for (const key in req.body) {
+            if (allowedUpdates.includes(key)) {
+                updates[key] = req.body[key];
+            }
+        }
 
         const updatedUser = await userModel.findByIdAndUpdate(userId, updates, { new: true, runValidators: true })
         if (!updatedUser) {
@@ -182,7 +191,7 @@ let updatePassword = async (req, res) => {
             return res.status(400).json({ status: "Error", message: "please enter current or password" })
         }
 
-        let user = await userModel.findById(req.userId)
+        let user = await userModel.findById(req.user.id)
 
         if (!user) {
             return res.status(404).json({ status: "Error", message: "inValid please login first" })
@@ -278,10 +287,12 @@ let verifyEmailAndResetPassword = async (req, res) => {
             return res.status(400).json({ message: "Invalid or expired verification code" });
         }
 
-        user.password = newPassword
+        user.password = newPassword;
+        user.verificationCode = undefined;
+        user.verificationCodeExpires = undefined;
         await user.save();
 
-        res.status(200).json({ message: "Email verified successfully! You can now login." });
+        res.status(200).json({ message: "Password reset successfully! You can now login." });
     } catch (err) {
         res.status(500).json({ message: "Verification failed", error: err.message });
     }

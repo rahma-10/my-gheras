@@ -1,25 +1,31 @@
 const Fertilizer = require("../models/fertilizer");
 const Plant = require("../models/plant");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
 
-// 1. Get All Fertilizers
-exports.getAllFertilizers = catchAsync(async (req, res, next) => {
+exports.getAllFertilizers = async (req, res) => {
+    try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
     const fertilizers = await Fertilizer.find()
-        .populate("suitablePlants", "name image") 
+        .select("name type image")
+        .populate("suitablePlants", "commonName")
         .skip(skip)
         .limit(limit);
 
-    res.status(200).json({
-        status: "success",
-        results: fertilizers.length,
-        data: { fertilizers }
+    const total = await Fertilizer.countDocuments();
+
+    res.json({
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        data: fertilizers
     });
-});
+    } catch (error) {
+    res.status(500).json({ message: error.message });
+    }
+};
 
 // 2. Get Fertilizer By ID
 exports.getFertilizerById = catchAsync(async (req, res, next) => {
@@ -27,35 +33,39 @@ exports.getFertilizerById = catchAsync(async (req, res, next) => {
         .populate("suitablePlants", "name image");
 
     if (!fertilizer) {
-        return next(new AppError("No fertilizer found with that ID", 404));
+        return res.status(404).json({ message: "Fertilizer not found" });
     }
 
-    res.status(200).json({
-        status: "success",
-        data: { fertilizer }
-    });
-});
+    res.json(fertilizer);
+    } catch (error) {
+    res.status(500).json({ message: error.message });
+    }
 
-// 3. Create Fertilizer 
-exports.createFertilizer = catchAsync(async (req, res, next) => {
-    const fertilizer = await Fertilizer.create(req.body);
+exports.createFertilizer = async (req, res) => {
+    try {
+    if (req.file) {
+        req.body.image = "uploads/" + req.file.filename;
+    }
+    const fertilizer = new Fertilizer(req.body);
+    const saved = await fertilizer.save();
 
-    
-    if (req.body.suitablePlants?.length) {
+    if (saved.suitablePlants && saved.suitablePlants.length > 0) {
         await Plant.updateMany(
-            { _id: { $in: req.body.suitablePlants } },
-            { $addToSet: { fertilizers: fertilizer._id } }
+            { _id: { $in: saved.suitablePlants } },
+            { $addToSet: { fertilizers: saved._id } }
         );
     }
 
-    res.status(201).json({
-        status: "success",
-        data: { fertilizer }
-    });
-});
+    res.status(201).json(saved);
+    } catch (error) {
+    res.status(400).json({ message: error.message });
+    }
 
-// 4. Update Fertilizer
-exports.updateFertilizer = catchAsync(async (req, res, next) => {
+exports.updateFertilizer = async (req, res) => {
+    try {
+    if (req.file) {
+        req.body.image = "uploads/" + req.file.filename;
+    }
     const fertilizer = await Fertilizer.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -66,18 +76,26 @@ exports.updateFertilizer = catchAsync(async (req, res, next) => {
     );
 
     if (!fertilizer) {
-        return next(new AppError("No fertilizer found with that ID", 404));
+        return res.status(404).json({ message: "Fertilizer not found" });
     }
 
-    res.status(200).json({
-        status: "success",
-        data: { fertilizer }
-    });
-});
+    res.json(fertilizer);
+    } catch (error) {
+    res.status(500).json({ message: error.message });
+    }
 
-// 5. Delete Fertilizer 
-exports.deleteFertilizer = catchAsync(async (req, res, next) => {
-    const fertilizer = await Fertilizer.findByIdAndDelete(req.params.id);
+exports.deleteFertilizer = async (req, res) => {
+    try {
+    const deletedFertilizer = await Fertilizer.findByIdAndDelete(req.params.id);
+
+    if (!deletedFertilizer) {
+        return res.status(404).json({ message: "Fertilizer not found" });
+    }
+
+    await Plant.updateMany(
+        { fertilizers: deletedFertilizer._id },
+        { $pull: { fertilizers: deletedFertilizer._id } }
+    );
 
     if (!fertilizer) {
         return next(new AppError("No fertilizer found with that ID", 404));

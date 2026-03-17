@@ -1,25 +1,31 @@
 const Disease = require("../models/disease");
 const Plant = require("../models/plant");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
 
-// 1. Get All Diseases (Pagination & Limited Fields)
-exports.getAllDiseases = catchAsync(async (req, res, next) => {
+exports.getAllDiseases = async (req, res) => {
+    try {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
     const diseases = await Disease.find()
-        .populate("affectedPlants", "name image")
+        .select("name scientificName image")
+        .populate("affectedPlants", "commonName")
         .skip(skip)
         .limit(limit);
 
-    res.status(200).json({
-        status: "success",
-        results: diseases.length,
-        data: { diseases }
+    const total = await Disease.countDocuments();
+
+    res.json({
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+        data: diseases
     });
-});
+    } catch (error) {
+    res.status(500).json({ message: error.message });
+    }
+};
 
 // 2. Get Disease By ID
 exports.getDiseaseById = catchAsync(async (req, res, next) => {
@@ -27,36 +33,39 @@ exports.getDiseaseById = catchAsync(async (req, res, next) => {
         .populate("affectedPlants", "name image");
 
     if (!disease) {
-        return next(new AppError("No disease found with that ID", 404));
+        return res.status(404).json({ message: "Disease not found" });
     }
 
-    res.status(200).json({
-        status: "success",
-        data: { disease }
-    });
-});
+    res.json(disease);
+    } catch (error) {
+    res.status(500).json({ message: error.message });
+    }
 
-// 3. Create Disease (Sync with Plants)
-exports.createDisease = catchAsync(async (req, res, next) => {
-    
-    const saved = await Disease.create(req.body);
+exports.createDisease = async (req, res) => {
+    try {
+    if (req.file) {
+        req.body.image = "uploads/" + req.file.filename;
+    }
+    const disease = new Disease(req.body);
+    const saved = await disease.save();
 
-    
-    if (req.body.affectedPlants?.length) {
+    if (saved.affectedPlants && saved.affectedPlants.length > 0) {
         await Plant.updateMany(
-            { _id: { $in: req.body.affectedPlants } },
+            { _id: { $in: saved.affectedPlants } },
             { $addToSet: { diseases: saved._id } }
         );
     }
 
-    res.status(201).json({
-        status: "success",
-        data: { disease: saved }
-    });
-});
+    res.status(201).json(saved);
+    } catch (error) {
+    res.status(400).json({ message: error.message });
+    }
 
-// 4. Update Disease
-exports.updateDisease = catchAsync(async (req, res, next) => {
+exports.updateDisease = async (req, res) => {
+    try {
+    if (req.file) {
+        req.body.image = "uploads/" + req.file.filename;
+    }
     const disease = await Disease.findByIdAndUpdate(
         req.params.id, 
         req.body, 
@@ -67,18 +76,26 @@ exports.updateDisease = catchAsync(async (req, res, next) => {
     );
 
     if (!disease) {
-        return next(new AppError("No disease found with that ID", 404));
+        return res.status(404).json({ message: "Disease not found" });
     }
 
-    res.status(200).json({
-        status: "success",
-        data: { disease }
-    });
-});
+    res.json(disease);
+    } catch (error) {
+    res.status(500).json({ message: error.message });
+    }
 
-// 5. Delete Disease (Cleanup References)
-exports.deleteDisease = catchAsync(async (req, res, next) => {
-    const disease = await Disease.findByIdAndDelete(req.params.id);
+exports.deleteDisease = async (req, res) => {
+    try {
+    const deletedDisease = await Disease.findByIdAndDelete(req.params.id);
+
+    if (!deletedDisease) {
+        return res.status(404).json({ message: "Disease not found" });
+    }
+
+    await Plant.updateMany(
+        { diseases: deletedDisease._id },
+        { $pull: { diseases: deletedDisease._id } }
+    );
 
     if (!disease) {
         return next(new AppError("No disease found with that ID", 404));
