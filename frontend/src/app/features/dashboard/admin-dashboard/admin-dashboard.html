@@ -1,153 +1,243 @@
 <div class="sidebar-layout page-wrapper">
   <aside class="sidebar">
-    <div class="sidebar-logo">⚙️ الإدارة</div>
+    <div class="sidebar-logo">الإدارة</div>
     <div class="sidebar-section-title">الرئيسية</div>
-    <a routerLink="/dashboard/admin" class="sidebar-link active"><span class="icon">📊</span> الإحصائيات</a>
+    <a routerLink="/dashboard/admin" class="sidebar-link active"><span class="icon"></span> الإحصائيات</a>
     <div class="sidebar-section-title">إدارة المحتوى</div>
-    <a href="#" class="sidebar-link"><span class="icon">📚</span> الويكي (بذور/أمراض)</a>
-    <a href="#" class="sidebar-link"><span class="icon">💬</span> المنتدى <span class="sidebar-badge">7</span></a>
-    <a href="#" class="sidebar-link"><span class="icon">📝</span> المدونة</a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> الويكي (بذور/أمراض)</a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> المنتدى <span class="sidebar-badge">7</span></a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> المدونة</a>
     <div class="sidebar-section-title">إدارة المتجر</div>
-    <a href="#" class="sidebar-link"><span class="icon">🛒</span> المنتجات</a>
-    <a href="#" class="sidebar-link"><span class="icon">📦</span> الطلبات <span class="sidebar-badge">4</span></a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> المنتجات</a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> الطلبات <span class="sidebar-badge">4</span></a>
     <div class="sidebar-section-title">إدارة المستخدمين</div>
-    <a href="#" class="sidebar-link"><span class="icon">👥</span> المستخدمون</a>
-    <a href="#" class="sidebar-link"><span class="icon">👨‍🌾</span> المهندسون</a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> المستخدمون</a>
+    <a href="#" class="sidebar-link"><span class="icon"></span> المهندسون</a>
   </aside>
 
   <main class="main-content">
     <div style="margin-bottom:1.5rem">
-      <div class="page-title">لوحة الإدارة ⚙️</div>
+      <div class="page-title">لوحة الإدارة</div>
       <div class="page-subtitle">الثلاثاء، 15 أبريل 2025</div>
     </div>
 
     <!-- Stats -->
     <div class="stats-grid" style="grid-template-columns:repeat(5,1fr);margin-bottom:2rem">
-      <div class="stat-card"><div class="stat-icon" style="background:var(--green-50)">👥</div><div class="stat-value">12,480</div><div class="stat-label">إجمالي المستخدمين</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:var(--amber-100)">💎</div><div class="stat-value">1,234</div><div class="stat-label">مشتركو البريميوم</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#dcfce7">🌱</div><div class="stat-value">38,920</div><div class="stat-label">نباتات مضافة</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#fef9c3">⚠️</div><div class="stat-value">7</div><div class="stat-label">بوستات تنتظر موافقة</div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:#dbeafe">📦</div><div class="stat-value">4</div><div class="stat-label">طلبات جديدة</div></div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-50)"></div>
+        <div class="stat-value">12,480</div>
+        <div class="stat-label">إجمالي المستخدمين</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--amber-100)"></div>
+        <div class="stat-value">1,234</div>
+        <div class="stat-label">مشتركو البريميوم</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#dcfce7"></div>
+        <div class="stat-value">38,920</div>
+        <div class="stat-label">نباتات مضافة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef9c3"></div>
+        <div class="stat-value">7</div>
+        <div class="stat-label">بوستات تنتظر موافقة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#dbeafe"></div>
+        <div class="stat-value">4</div>
+        <div class="stat-label">طلبات جديدة</div>
+      </div>
     </div>
 
     <div class="grid-2" style="margin-bottom:2rem">
       <!-- Growth chart -->
-      <div class="card"><div class="card-body">
-        <div style="font-weight:700;margin-bottom:1rem;color:var(--green-900)">📈 نمو المستخدمين (آخر 7 أيام)</div>
-        <div class="mini-chart">
-          <div class="bar" style="height:40%"></div><div class="bar" style="height:55%"></div>
-          <div class="bar" style="height:45%"></div><div class="bar" style="height:70%"></div>
-          <div class="bar" style="height:60%"></div><div class="bar" style="height:85%"></div>
-          <div class="bar" style="height:100%;background:var(--green-600);opacity:1"></div>
+      <div class="card">
+        <div class="card-body">
+          <div style="font-weight:700;margin-bottom:1rem;color:var(--green-900)">نمو المستخدمين (آخر 7 أيام)</div>
+          <div class="mini-chart">
+            <div class="bar" style="height:40%"></div>
+            <div class="bar" style="height:55%"></div>
+            <div class="bar" style="height:45%"></div>
+            <div class="bar" style="height:70%"></div>
+            <div class="bar" style="height:60%"></div>
+            <div class="bar" style="height:85%"></div>
+            <div class="bar" style="height:100%;background:var(--green-600);opacity:1"></div>
+          </div>
+          <div
+            style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--neutral-400);margin-top:.3rem">
+            <span>السبت</span><span>الأحد</span><span>الاثنين</span><span>الثلاثاء</span><span>الأربعاء</span><span>الخميس</span><span>الجمعة</span>
+          </div>
+          <div style="margin-top:1rem;display:flex;gap:1rem">
+            <div>
+              <div style="font-size:1.3rem;font-weight:800;color:var(--green-700)">+248</div>
+              <div style="font-size:.78rem;color:var(--neutral-500)">مستخدم جديد الأسبوع</div>
+            </div>
+            <div>
+              <div style="font-size:1.3rem;font-weight:800;color:var(--amber-500)">+32</div>
+              <div style="font-size:.78rem;color:var(--neutral-500)">اشتراك بريميوم جديد</div>
+            </div>
+          </div>
         </div>
-        <div style="display:flex;justify-content:space-between;font-size:.72rem;color:var(--neutral-400);margin-top:.3rem">
-          <span>السبت</span><span>الأحد</span><span>الاثنين</span><span>الثلاثاء</span><span>الأربعاء</span><span>الخميس</span><span>الجمعة</span>
-        </div>
-        <div style="margin-top:1rem;display:flex;gap:1rem">
-          <div><div style="font-size:1.3rem;font-weight:800;color:var(--green-700)">+248</div><div style="font-size:.78rem;color:var(--neutral-500)">مستخدم جديد الأسبوع</div></div>
-          <div><div style="font-size:1.3rem;font-weight:800;color:var(--amber-500)">+32</div><div style="font-size:.78rem;color:var(--neutral-500)">اشتراك بريميوم جديد</div></div>
-        </div>
-      </div></div>
+      </div>
 
       <!-- Top plants -->
-      <div class="card"><div class="card-body">
-        <div style="font-weight:700;margin-bottom:1rem;color:var(--green-900)">🌱 أكثر النباتات إضافةً</div>
-        <div style="display:flex;flex-direction:column;gap:.6rem">
-          <div style="display:flex;align-items:center;gap:.75rem">
-            <span style="font-size:1.2rem">🍅</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem"><span>الطماطم</span><span style="font-weight:700">8,240</span></div>
-              <div class="progress-bar"><div class="progress-fill" style="width:82%"></div></div>
+      <div class="card">
+        <div class="card-body">
+          <div style="font-weight:700;margin-bottom:1rem;color:var(--green-900)">أكثر النباتات إضافةً</div>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <span style="font-size:1.2rem"></span>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem">
+                  <span>الطماطم</span><span style="font-weight:700">8,240</span></div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:82%"></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:.75rem">
-            <span style="font-size:1.2rem">🌵</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem"><span>الكاكتوس</span><span style="font-weight:700">7,100</span></div>
-              <div class="progress-bar"><div class="progress-fill" style="width:71%"></div></div>
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <span style="font-size:1.2rem"></span>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem">
+                  <span>الكاكتوس</span><span style="font-weight:700">7,100</span></div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:71%"></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:.75rem">
-            <span style="font-size:1.2rem">🌹</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem"><span>الورد الجوري</span><span style="font-weight:700">5,900</span></div>
-              <div class="progress-bar"><div class="progress-fill" style="width:59%"></div></div>
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <span style="font-size:1.2rem"></span>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem">
+                  <span>الورد الجوري</span><span style="font-weight:700">5,900</span></div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:59%"></div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:.75rem">
-            <span style="font-size:1.2rem">🌿</span>
-            <div style="flex:1">
-              <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem"><span>النعناع</span><span style="font-weight:700">4,200</span></div>
-              <div class="progress-bar"><div class="progress-fill" style="width:42%"></div></div>
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <span style="font-size:1.2rem"></span>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.25rem">
+                  <span>النعناع</span><span style="font-weight:700">4,200</span></div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width:42%"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div></div>
+      </div>
     </div>
 
     <!-- Forum Moderation -->
-    <div class="page-title" style="font-size:1.05rem;margin-bottom:1rem">💬 بوستات المنتدى — تنتظر الموافقة (7)</div>
+    <div class="page-title" style="font-size:1.05rem;margin-bottom:1rem">بوستات المنتدى — تنتظر الموافقة (7)</div>
     <div class="table-wrap" style="margin-bottom:2rem">
       <table class="data-table">
-        <thead><tr><th>المستخدم</th><th>العنوان</th><th>الكاتيجوري</th><th>تاريخ الكتابة</th><th>الإجراء</th></tr></thead>
+        <thead>
+          <tr>
+            <th>المستخدم</th>
+            <th>العنوان</th>
+            <th>الكاتيجوري</th>
+            <th>تاريخ الكتابة</th>
+            <th>الإجراء</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
             <td>محمد أحمد</td>
             <td>نبتتي الأوراق بتصفر — إيه الحل؟</td>
             <td><span class="badge badge-earth">أمراض وآفات</span></td>
             <td>منذ 2 ساعة</td>
-            <td><div style="display:flex;gap:.4rem"><button class="btn btn-primary btn-sm" style="background:var(--green-500)">✓ قبول</button><button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5">✕ رفض</button></div></td>
+            <td>
+              <div style="display:flex;gap:.4rem"><button class="btn btn-primary btn-sm"
+                  style="background:var(--green-500)">قبول</button><button class="btn btn-sm"
+                  style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5">رفض</button></div>
+            </td>
           </tr>
           <tr>
             <td>نور حسين</td>
             <td>أفضل طريقة لزراعة الطماطم في الشقة</td>
             <td><span class="badge badge-green">نصائح</span></td>
             <td>منذ 4 ساعات</td>
-            <td><div style="display:flex;gap:.4rem"><button class="btn btn-primary btn-sm" style="background:var(--green-500)">✓ قبول</button><button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5">✕ رفض</button></div></td>
+            <td>
+              <div style="display:flex;gap:.4rem"><button class="btn btn-primary btn-sm"
+                  style="background:var(--green-500)">قبول</button><button class="btn btn-sm"
+                  style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5">رفض</button></div>
+            </td>
           </tr>
           <tr>
             <td>خالد سالم</td>
             <td>سماد طبيعي من المطبخ — تجربتي</td>
             <td><span class="badge badge-green">نصائح</span></td>
             <td>أمس</td>
-            <td><div style="display:flex;gap:.4rem"><button class="btn btn-primary btn-sm" style="background:var(--green-500)">✓ قبول</button><button class="btn btn-sm" style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5">✕ رفض</button></div></td>
+            <td>
+              <div style="display:flex;gap:.4rem"><button class="btn btn-primary btn-sm"
+                  style="background:var(--green-500)">قبول</button><button class="btn btn-sm"
+                  style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5">رفض</button></div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- Orders -->
-    <div class="page-title" style="font-size:1.05rem;margin-bottom:1rem">📦 الطلبات الجديدة (4)</div>
+    <div class="page-title" style="font-size:1.05rem;margin-bottom:1rem">الطلبات الجديدة (4)</div>
     <div class="table-wrap">
       <table class="data-table">
-        <thead><tr><th>#</th><th>العميل</th><th>المنتجات</th><th>الإجمالي</th><th>طريقة الدفع</th><th>الحالة</th><th>تعديل</th></tr></thead>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>العميل</th>
+            <th>المنتجات</th>
+            <th>الإجمالي</th>
+            <th>طريقة الدفع</th>
+            <th>الحالة</th>
+            <th>تعديل</th>
+          </tr>
+        </thead>
         <tbody>
           <tr>
             <td style="font-weight:700;color:var(--green-700)">#1042</td>
             <td>منى عبد الله</td>
             <td>سماد NPK × 2 ، تربة × 1</td>
             <td style="font-weight:700">170 ج.م</td>
-            <td><span class="badge badge-green">💳 Paymob</span></td>
-            <td><span class="badge badge-amber">⏳ معلق</span></td>
-            <td><select class="input-field" style="padding:.3rem .5rem;width:120px;font-size:.8rem"><option>معلق</option><option>مؤكد</option><option>تم الشحن</option><option>مُستلم</option></select></td>
+            <td><span class="badge badge-green">Paymob</span></td>
+            <td><span class="badge badge-amber">معلق</span></td>
+            <td><select class="input-field" style="padding:.3rem .5rem;width:120px;font-size:.8rem">
+                <option>معلق</option>
+                <option>مؤكد</option>
+                <option>تم الشحن</option>
+                <option>مُستلم</option>
+              </select></td>
           </tr>
           <tr>
             <td style="font-weight:700;color:var(--green-700)">#1043</td>
             <td>أحمد مصطفى</td>
             <td>بذور طماطم × 3</td>
             <td style="font-weight:700">75 ج.م</td>
-            <td><span class="badge badge-earth">💵 كاش</span></td>
-            <td><span class="badge badge-amber">⏳ معلق</span></td>
-            <td><select class="input-field" style="padding:.3rem .5rem;width:120px;font-size:.8rem"><option>معلق</option><option>مؤكد</option><option>تم الشحن</option><option>مُستلم</option></select></td>
+            <td><span class="badge badge-earth">كاش</span></td>
+            <td><span class="badge badge-amber">معلق</span></td>
+            <td><select class="input-field" style="padding:.3rem .5rem;width:120px;font-size:.8rem">
+                <option>معلق</option>
+                <option>مؤكد</option>
+                <option>تم الشحن</option>
+                <option>مُستلم</option>
+              </select></td>
           </tr>
           <tr>
             <td style="font-weight:700;color:var(--green-700)">#1041</td>
             <td>رانيا حسن</td>
             <td>بخاخ × 1 ، مبيد × 1</td>
             <td style="font-weight:700">100 ج.م</td>
-            <td><span class="badge badge-green">💳 Paymob</span></td>
-            <td><span class="badge badge-green">✅ مؤكد</span></td>
-            <td><select class="input-field" style="padding:.3rem .5rem;width:120px;font-size:.8rem"><option>مؤكد</option><option>تم الشحن</option><option>مُستلم</option></select></td>
+            <td><span class="badge badge-green">Paymob</span></td>
+            <td><span class="badge badge-green">مؤكد</span></td>
+            <td><select class="input-field" style="padding:.3rem .5rem;width:120px;font-size:.8rem">
+                <option>مؤكد</option>
+                <option>تم الشحن</option>
+                <option>مُستلم</option>
+              </select></td>
           </tr>
         </tbody>
       </table>

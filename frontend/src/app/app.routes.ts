@@ -3,7 +3,8 @@ import { authGuard } from './core/guards/auth.guard';
 import { adminGuard } from './core/guards/admin.guard';
 import { Home } from './features/home/home';
 import { Login } from './features/auth/login/login';
-import { Register } from './features/auth/register/register';
+import { RegisterComponent } from './features/auth/register/register';
+import { VerifyEmailComponent } from './features/auth/verify-email/verify-email';
 import { Wiki } from './features/wiki/wiki';
 import { Shop } from './features/shop/shop';
 import { Forum } from './features/community/forum/forum';
@@ -16,7 +17,8 @@ import { PremiumDashboard } from './features/dashboard/premium-dashboard/premium
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'login', component: Login },
-  { path: 'register', component: Register },
+  { path: 'register', component: RegisterComponent },
+  { path: 'verify-email', component: VerifyEmailComponent },
   { path: 'wiki', component: Wiki },
   { path: 'shop', component: Shop },
   { path: 'forum', component: Forum },

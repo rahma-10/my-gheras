@@ -159,6 +159,7 @@ let login = async (req, res) => {
         }
 
         let user = await userModel.findOne({ email: email })
+        let username = user.username
 
         if (!user) {
             return res.status(404).json({ message: "invalid email or password" })
@@ -175,7 +176,7 @@ let login = async (req, res) => {
         }
 
         let token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.SECRET_KEY)
-        res.status(200).json({ token: token })
+        res.status(200).json({ token: token, username: username })
     } catch (error) {
         res.status(500).json(error.message)
     }

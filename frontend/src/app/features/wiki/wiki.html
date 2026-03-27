@@ -1,21 +1,21 @@
 <div class="page-wrapper">
   <div class="wiki-hero">
-    <h1>📚 موسوعة النباتات</h1>
+    <h1>موسوعة النباتات</h1>
     <p>أكثر من 500 نبتة بمعلومات علمية دقيقة — ابحث واعرف كل حاجة</p>
     <div class="search-bar">
       <input type="text" id="wiki-search" placeholder="ابحث عن نبتة... مثلاً: طماطم، كاكتوس، ورد">
-      <span class="search-icon">🔍</span>
+      <span class="search-icon"></span>
     </div>
   </div>
 
   <div class="wiki-tabs">
     <button class="wiki-filter active" onclick="filterWiki('all',this)">الكل</button>
-    <button class="wiki-filter" onclick="filterWiki('خضروات',this)">🥕 خضروات</button>
-    <button class="wiki-filter" onclick="filterWiki('زهور',this)">🌸 زهور</button>
-    <button class="wiki-filter" onclick="filterWiki('فواكه',this)">🍓 فواكه</button>
-    <button class="wiki-filter" onclick="filterWiki('أعشاب',this)">🌿 أعشاب</button>
-    <button class="wiki-filter" onclick="filterWiki('صبار',this)">🌵 صبار</button>
-    <button class="wiki-filter" onclick="filterWiki('أشجار',this)">🌳 أشجار</button>
+    <button class="wiki-filter" onclick="filterWiki('خضروات',this)">خضروات</button>
+    <button class="wiki-filter" onclick="filterWiki('زهور',this)">زهور</button>
+    <button class="wiki-filter" onclick="filterWiki('فواكه',this)">فواكه</button>
+    <button class="wiki-filter" onclick="filterWiki('أعشاب',this)">أعشاب</button>
+    <button class="wiki-filter" onclick="filterWiki('صبار',this)">صبار</button>
+    <button class="wiki-filter" onclick="filterWiki('أشجار',this)">أشجار</button>
   </div>
 
   <div class="container section-sm">
@@ -23,7 +23,7 @@
 
       <!-- Card 1 -->
       <div class="wiki-card" data-cat="خضروات" onclick="openModal('tomato')">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fff5f5,#fee2e2)">🍅</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fff5f5,#fee2e2)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">الطماطم</div>
           <div class="wiki-card-en">Solanum lycopersicum</div>
@@ -33,14 +33,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 كل يومين · 🌡️ 15–35°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">كل يومين · 15–35°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 2 -->
       <div class="wiki-card" data-cat="صبار" onclick="openModal('cactus')">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7)">🌵</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">الكاكتوس</div>
           <div class="wiki-card-en">Cactaceae</div>
@@ -50,14 +50,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 كل 14 يوم · 🌡️ 10–45°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">كل 14 يوم · 10–45°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 3 -->
       <div class="wiki-card" data-cat="زهور" onclick="openModal('rose')">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fff1f2,#ffe4e6)">🌹</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fff1f2,#ffe4e6)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">الورد الجوري</div>
           <div class="wiki-card-en">Rosa damascena</div>
@@ -67,14 +67,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 يومياً · 🌡️ 15–28°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">يومياً · 15–28°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 4 -->
       <div class="wiki-card" data-cat="أعشاب" onclick="openModal('mint')">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#f0fdf4,#bbf7d0)">🌿</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#f0fdf4,#bbf7d0)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">النعناع</div>
           <div class="wiki-card-en">Mentha piperita</div>
@@ -84,14 +84,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 يومياً · 🌡️ 10–25°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">يومياً · 10–25°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 5 -->
       <div class="wiki-card" data-cat="فواكه" onclick="openModal('strawberry')">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fff1f2,#fce7f3)">🍓</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fff1f2,#fce7f3)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">الفراولة</div>
           <div class="wiki-card-en">Fragaria × ananassa</div>
@@ -101,14 +101,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 كل يومين · 🌡️ 10–26°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">كل يومين · 10–26°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 6 -->
       <div class="wiki-card" data-cat="أعشاب">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fefce8,#fef08a)">🌻</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fefce8,#fef08a)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">دوار الشمس</div>
           <div class="wiki-card-en">Helianthus annuus</div>
@@ -118,14 +118,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 كل 3 أيام · 🌡️ 18–35°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">كل 3 أيام · 18–35°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 7 -->
       <div class="wiki-card" data-cat="خضروات">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#f0fdf4,#86efac)">🥦</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#f0fdf4,#86efac)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">البروكلي</div>
           <div class="wiki-card-en">Brassica oleracea</div>
@@ -135,14 +135,14 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 يومياً · 🌡️ 7–24°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">يومياً · 7–24°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
 
       <!-- Card 8 -->
       <div class="wiki-card" data-cat="أشجار">
-        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fefce8,#fde68a)">🍋</div>
+        <div class="wiki-card-img" style="background:linear-gradient(135deg,#fefce8,#fde68a)"></div>
         <div class="wiki-card-body">
           <div class="wiki-card-name">الليمون</div>
           <div class="wiki-card-en">Citrus limon</div>
@@ -152,7 +152,7 @@
           </div>
         </div>
         <div class="wiki-card-footer">
-          <span style="font-size:.8rem;color:var(--neutral-500)">💧 مرتين/أسبوع · 🌡️ 15–38°</span>
+          <span style="font-size:.8rem;color:var(--neutral-500)">مرتين/أسبوع · 15–38°</span>
           <button class="btn btn-secondary btn-sm">تفاصيل</button>
         </div>
       </div>
