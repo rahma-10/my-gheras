@@ -149,6 +149,11 @@ export class UserDashboard implements OnInit {
     this.showNotificationsDropdown.update(v => !v);
   }
 
+  scrollToPlants() {
+    const el = document.getElementById('my-garden');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   waterPlant(id: string) {
     this.http.put<any>(`http://localhost:3000/api/dashboard/water-plant/${id}`, {}).subscribe({
       next: (res) => {

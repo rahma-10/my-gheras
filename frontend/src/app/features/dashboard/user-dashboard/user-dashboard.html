@@ -4,11 +4,10 @@
     <div class="sidebar-logo">غِراس</div>
     <div class="sidebar-section-title">الرئيسية</div>
     <a routerLink="/dashboard" class="sidebar-link active"><span class="icon"></span> لوحتي</a>
-    <a href="#" class="sidebar-link"><span class="icon"></span> نباتاتي @if (dashboardStats().totalPlants > 0) { <span
+    <a (click)="scrollToPlants()" class="sidebar-link" style="cursor:pointer"><span class="icon"></span> نباتاتي @if (dashboardStats().totalPlants > 0) { <span
         class="sidebar-badge">{{ dashboardStats().totalPlants }}</span> }</a>
-    <a href="#" class="sidebar-link"><span class="icon"></span> التنبيهات</a>
+    <a (click)="toggleNotifications()" class="sidebar-link" style="cursor:pointer"><span class="icon"></span> التنبيهات @if (notifications().length > 0) { <span class="sidebar-badge">{{ notifications().length }}</span> }</a>
     <div class="sidebar-section-title">الأدوات</div>
-    <a href="#" class="sidebar-link"><span class="icon"></span> تشخيص مرض</a>
     <a routerLink="/wiki" class="sidebar-link"><span class="icon"></span> الموسوعة</a>
     <a routerLink="/shop" class="sidebar-link"><span class="icon"></span> المتجر</a>
     <a routerLink="/forum" class="sidebar-link"><span class="icon"></span> المنتدى</a>
@@ -27,30 +26,37 @@
       </div>
       <div style="display:flex;gap:1.5rem;align-items:center;position:relative;">
         <div style="position:relative;">
-           <button (click)="toggleNotifications()" class="btn btn-ghost" style="width:44px;height:44px;border-radius:50%;padding:0;background:var(--neutral-100);font-size:1.2rem;border:1px solid var(--neutral-200);cursor:pointer;">
-             🔔
-             @if (notifications().length > 0) {
-               <span style="position:absolute;top:-4px;right:-4px;background:var(--amber-500);color:white;border-radius:50%;width:20px;height:20px;font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:bold;">
-                 {{ notifications().length }}
-               </span>
-             }
-           </button>
-           
-           @if (showNotificationsDropdown()) {
-             <div style="position:absolute;top:120%;left:0;background:white;border-radius:var(--radius-md);box-shadow:var(--shadow-xl);width:320px;z-index:200;max-height:400px;overflow-y:auto;border:1px solid var(--neutral-100);">
-                <div style="padding:1rem;border-bottom:1px solid var(--neutral-100);font-weight:700;background:var(--neutral-50);color:var(--neutral-700)">تنبيهات الري</div>
-                @if (notifications().length > 0) {
-                   @for (notif of notifications(); track notif.message) {
-                     <div style="padding:1rem;border-bottom:1px solid var(--neutral-50);font-size:.88rem;display:flex;gap:.75rem;align-items:flex-start;">
-                        <span style="font-size:1.5rem;line-height:1">💧</span>
-                        <div style="color:var(--neutral-800)">{{ notif.message }}</div>
-                     </div>
-                   }
-                } @else {
-                   <div style="padding:2rem 1rem;text-align:center;color:var(--neutral-500);">لا توجد إشعارات لري نباتاتك حالياً.</div>
-                }
-             </div>
-           }
+          <button (click)="toggleNotifications()" class="btn btn-ghost"
+            style="width:44px;height:44px;border-radius:50%;padding:0;background:var(--neutral-100);font-size:1.2rem;border:1px solid var(--neutral-200);cursor:pointer;">
+            🔔
+            @if (notifications().length > 0) {
+            <span
+              style="position:absolute;top:-4px;right:-4px;background:var(--amber-500);color:white;border-radius:50%;width:20px;height:20px;font-size:.75rem;display:flex;align-items:center;justify-content:center;font-weight:bold;">
+              {{ notifications().length }}
+            </span>
+            }
+          </button>
+
+          @if (showNotificationsDropdown()) {
+          <div
+            style="position:absolute;top:120%;left:0;background:white;border-radius:var(--radius-md);box-shadow:var(--shadow-xl);width:320px;z-index:200;max-height:400px;overflow-y:auto;border:1px solid var(--neutral-100);">
+            <div
+              style="padding:1rem;border-bottom:1px solid var(--neutral-100);font-weight:700;background:var(--neutral-50);color:var(--neutral-700)">
+              تنبيهات الري</div>
+            @if (notifications().length > 0) {
+            @for (notif of notifications(); track notif.message) {
+            <div
+              style="padding:1rem;border-bottom:1px solid var(--neutral-50);font-size:.88rem;display:flex;gap:.75rem;align-items:flex-start;">
+              <span style="font-size:1.5rem;line-height:1">💧</span>
+              <div style="color:var(--neutral-800)">{{ notif.message }}</div>
+            </div>
+            }
+            } @else {
+            <div style="padding:2rem 1rem;text-align:center;color:var(--neutral-500);">لا توجد إشعارات لري نباتاتك
+              حالياً.</div>
+            }
+          </div>
+          }
         </div>
         <button (click)="openAddPlant()" class="btn btn-primary">+ إضافة نبتة</button>
       </div>
@@ -71,20 +77,10 @@
         <div class="stat-value">{{ dashboardStats().totalPlants }}</div>
         <div class="stat-label">نباتاتي</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:#dcfce7"></div>
-        <div class="stat-value">{{ dashboardStats().alerts }}</div>
-        <div class="stat-label">تحتاج ري اليوم</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon" style="background:#fef9c3"></div>
-        <div class="stat-value">0</div>
-        <div class="stat-label">موعد تسميد هذا الأسبوع</div>
-      </div>
     </div>
 
     <!-- Plants -->
-    <div class="page-title" style="font-size:1.1rem;margin-bottom:1rem">نباتاتي</div>
+    <div id="my-garden" class="page-title" style="font-size:1.1rem;margin-bottom:1rem">نباتاتي</div>
     @if (dashboardLoading()) {
     <div style="padding:2rem;text-align:center;color:var(--neutral-500)">جاري تحميل نباتاتك...</div>
     } @else {
@@ -210,7 +206,8 @@
         <div class="tab-content active">
           <div class="grid-2" style="margin-bottom:1rem">
             <div style="background:var(--green-50);border-radius:var(--radius-md);padding:1rem;text-align:center">
-              <div style="font-weight:700;color:var(--green-800)">{{ (getCalculatedNextWatering(selectedPlantDetails()) | date:'MMM d') || 'غير محدد' }}</div>
+              <div style="font-weight:700;color:var(--green-800)">{{ (getCalculatedNextWatering(selectedPlantDetails())
+                | date:'MMM d') || 'غير محدد' }}</div>
               <div style="font-size:.78rem;color:var(--neutral-500)">الري القادم</div>
             </div>
             <div style="background:var(--amber-100);border-radius:var(--radius-md);padding:1rem;text-align:center">
