@@ -43,10 +43,6 @@ export class Wiki implements OnInit {
       const families = ['all', ...new Set(this.plants().map(p => p.family).filter(Boolean))];
       return families;
     }
-    if (filter === 'diseases') {
-      const pathogens = ['all', ...new Set(this.diseases().map(d => d.pathogenType).filter(Boolean))];
-      return pathogens;
-    }
     if (filter === 'fertilizers') {
       const types = ['all', ...new Set(this.fertilizers().map(f => f.type).filter(Boolean))];
       return types;
@@ -142,18 +138,14 @@ export class Wiki implements OnInit {
     }
 
     if (filter === 'all' || filter === 'diseases') {
-      let currentDis = this.diseases();
-      if (filter === 'diseases' && subFilter !== 'all') {
-        currentDis = currentDis.filter(d => d.pathogenType === subFilter);
-      }
-      combined = [...combined, ...currentDis.map(d => ({
+      combined = [...combined, ...this.diseases().map(d => ({
         ...d,
         type: 'disease',
         displayName: d.name || 'مرض',
-        displaySub: d.pathogenType || 'مرض نباتي',
+        displaySub: d.scientificName || 'مرض نباتي',
         displayImage: d.image,
         meta: {
-            family: d.pathogenType || 'مرض',
+            family: 'مرض نباتي',
             water: 'علاجي',
             frequency: 'فوري',
         }
