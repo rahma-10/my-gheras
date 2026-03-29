@@ -7,7 +7,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const authReq = req.clone({
       headers: req.headers
         .set('Authorization', `Bearer ${token}`)
-        .set('token', token) // 👈 Specific header requested by your backend middleware
+        .set('token', token) // Backend explicitly checks for req.headers.token
     });
     return next(authReq);
   }
