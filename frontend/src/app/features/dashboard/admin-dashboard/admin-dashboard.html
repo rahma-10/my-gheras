@@ -153,8 +153,8 @@
       </div>
 
       <!-- Forum Moderation -->
-      <div class="page-title" style="font-size:1.05rem;margin-bottom:1rem">بوستات المنتدى — تنتظر الموافقة (7)</div>
-      <div class="table-wrap" style="margin-bottom:2rem">
+      <div class="page-title" style="font-size:1.05rem;margin-bottom:1rem">بوستات المنتدى — تنتظر الموافقة ({{ pendingPosts.length }})</div>
+      <!-- <div class="table-wrap" style="margin-bottom:2rem">
         <table class="data-table">
           <thead>
             <tr>
@@ -200,6 +200,47 @@
               </td>
             </tr>
           </tbody>
+        </table>
+      </div> -->
+      <div class="table-wrap" style="margin-bottom:2rem">
+        <table class="data-table">
+          <thead>
+     <tr *ngFor="let post of pendingPosts">
+
+  <td>{{ post.author?.name }}</td>
+
+  <td>{{ post.title }}</td>
+
+  <td>
+    <span class="badge badge-earth">
+      {{ post.category || 'عام' }}
+    </span>
+  </td>
+
+  <td>
+    {{ post.createdAt | date:'short' }}
+  </td>
+
+  <td>
+    <div style="display:flex;gap:.4rem">
+
+      <button class="btn btn-primary btn-sm"
+              style="background:var(--green-500)"
+              (click)="approvePost(post._id)">
+        قبول
+      </button>
+
+      <button class="btn btn-sm"
+              style="background:#fef2f2;color:#dc2626;border:1px solid #fca5a5"
+              (click)="rejectPost(post._id)">
+        رفض
+      </button>
+
+    </div>
+  </td>
+
+</tr>
+</thead>
         </table>
       </div>
 

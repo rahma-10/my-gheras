@@ -55,4 +55,25 @@ export class DashboardService {
   deletePlantAdmin(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/plants/${id}`);
   }
+
+   // Post moderation (Admin)
+  getPendingPosts(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/posts/pending`);
+  }
+
+  approvePost(id: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/posts/approve/${id}`, {});
+  }
+
+  rejectPost(id: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/posts/reject/${id}`, {});
+  }
+
+  addComment(postId: string, text: string, authorId: string) {
+  return this.http.post(`${this.baseUrl}/comments`, {
+    post: postId,
+    text: text,
+    author: authorId
+  });
+}
 }

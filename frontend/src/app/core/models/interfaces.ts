@@ -109,6 +109,7 @@ export interface Post {
   user: User | string;
   title: string;
   content: string;
+  author?: any;
   comments?: Comment[];
   createdAt?: string;
 }
@@ -119,6 +120,8 @@ export interface Comment {
   post: string;
   content: string;
   createdAt?: string;
+  text?: string;
+  author?: any;
 }
 
 export interface Blog {

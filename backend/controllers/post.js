@@ -7,7 +7,8 @@ exports.createPost = catchAsync(async (req, res, next) => {
     const post = await Post.create({
         title: req.body.title,
         content: req.body.content,
-        author: req.body.author,
+        // author: req.body.author,
+        author:req.user.id,
         status: "pending" 
     });
 

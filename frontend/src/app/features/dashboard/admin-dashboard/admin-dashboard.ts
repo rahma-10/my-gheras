@@ -71,10 +71,13 @@ export class AdminDashboard implements OnInit {
 
   // -------------------- CATEGORY FORM --------------------
   categoryForm: any = { name: '', slug: '', description: '' };
+  pendingPostsLoading: boolean = false;
+  pendingPosts: any[] = [];
 
   // ==================== INIT ====================
   ngOnInit() {
     this.loadAllData();
+    this.loadPendingPosts();
   }
 
   loadAllData() {
@@ -105,7 +108,10 @@ export class AdminDashboard implements OnInit {
   setView(view: string) {
     this.activeView = view;
     this.resetPlantForm(); // ريست للفورم عند تغيير الواجهة عشان البيانات متتداخلش
-    this.loadAllData();    // تأكد إن البيانات فريش دائماً
+    this.loadAllData();
+    if (view === 'pending') {
+      this.loadPendingPosts(); // ← جديد
+      }   // تأكد إن البيانات فريش دائماً
   }
 
   // ==================== FILE CHANGE ====================
@@ -406,11 +412,11 @@ export class AdminDashboard implements OnInit {
     if (this.productForm.discountPercent) formData.append('discountPercent', this.productForm.discountPercent.toString());
     this.productImages.forEach(file => formData.append('images', file));
     this.dashboardService.addProductAdmin(formData).subscribe({
-      next: () => { 
-        this.alertService.show('تم إضافة المنتج بنجاح ✅', 'success'); 
-        this.productForm = { name: '', description: '', category: '', price: 0, costPrice: 0, discountPercent: 0, stock: 0 }; 
-        this.productImages = []; 
-        this.setView('stats'); 
+      next: () => {
+        this.alertService.show('تم إضافة المنتج بنجاح ✅', 'success');
+        this.productForm = { name: '', description: '', category: '', price: 0, costPrice: 0, discountPercent: 0, stock: 0 };
+        this.productImages = [];
+        this.setView('stats');
       },
       error: (err) => { console.error(err); this.alertService.show('حدث خطأ: ' + (err.error?.message || ''), 'error'); }
     });
@@ -419,12 +425,54 @@ export class AdminDashboard implements OnInit {
   // ==================== SUBMIT CATEGORY ====================
   submitCategory() {
     this.dashboardService.addCategoryAdmin(this.categoryForm).subscribe({
-      next: () => { 
-        this.alertService.show('تم إضافة التصنيف بنجاح ✅', 'success'); 
-        this.categoryForm = { name: '', slug: '', description: '' }; 
-        this.setView('stats'); 
+      next: () => {
+        this.alertService.show('تم إضافة التصنيف بنجاح ✅', 'success');
+        this.categoryForm = { name: '', slug: '', description: '' };
+        this.setView('stats');
       },
       error: (err) => { console.error(err); this.alertService.show('حدث خطأ: ' + (err.error?.message || ''), 'error'); }
+    });
+  }
+
+  // =================== Forum ===========================
+  loadPendingPosts() {
+    this.pendingPostsLoading = true;
+    this.dashboardService.getPendingPosts().subscribe({
+      next: (res: { data: { posts: never[]; }; }) => {
+        this.pendingPosts = res.data?.posts || [];
+        this.pendingPostsLoading = false;
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.pendingPostsLoading = false;
+        this.alertService.show('حدث خطأ أثناء جلب البوستات', 'error');
+      }
+    });
+  }
+
+  approvePost(id: string) {
+    this.dashboardService.approvePost(id).subscribe({
+      next: () => {
+        this.alertService.show('تم قبول البوست بنجاح ✅', 'success');
+        this.loadPendingPosts();
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.alertService.show('حدث خطأ أثناء قبول البوست', 'error');
+      }
+    });
+  }
+
+  rejectPost(id: string) {
+    this.dashboardService.rejectPost(id).subscribe({
+      next: () => {
+        this.alertService.show('تم رفض البوست', 'success');
+        this.loadPendingPosts();
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.alertService.show('حدث خطأ أثناء رفض البوست', 'error');
+      }
     });
   }
 }
