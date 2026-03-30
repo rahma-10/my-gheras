@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .approval-container {
   padding: 20px;
   color: #fff;
@@ -60,4 +61,258 @@
   text-align: center;
   margin-top: 20px;
   color: #aaa;
+=======
+.sidebar-submenu {
+  margin-right: 1.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding-right: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-link.has-chevron {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chevron-icon {
+  font-size: 0.6rem;
+  transition: transform 0.3s ease;
+  opacity: 0.5;
+}
+
+.rotated {
+  transform: rotate(90deg);
+}
+
+.sidebar-sub-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.82rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.sidebar-sub-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.sidebar-sub-link.active {
+  color: var(--green-400);
+  font-weight: 700;
+  background: rgba(25, 135, 84, 0.1);
+}
+
+.sidebar-group {
+  margin-bottom: 4px;
+}
+
+/* Stat Cards Logic */
+.stats-grid {
+  display: flex !important;
+  gap: 1.25rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.stat-card {
+  flex: 1 !important;
+  background: white !important;
+  padding: 1.5rem !important;
+  border-radius: 1rem !important;
+  text-align: center !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+  border: 1px solid #eee !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 150px !important;
+  transition: transform 0.2s ease !important;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px) !important;
+}
+
+.stat-icon {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto 0.75rem !important;
+  font-size: 1.25rem !important;
+}
+
+.stat-value {
+  display: block !important;
+  font-size: 1.75rem !important;
+  font-weight: 800 !important;
+  color: #111827 !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.2 !important;
+}
+
+.stat-label {
+  display: block !important;
+  font-size: 0.85rem !important;
+  color: #6b7280 !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.bg-primary-subtle {
+  background-color: #eff6ff !important;
+}
+
+/* Dashboard Layout Styles */
+.sidebar-layout {
+  display: flex !important;
+  min-height: calc(100vh - 68px) !important;
+}
+
+.sidebar {
+  width: 250px !important;
+  flex-shrink: 0 !important;
+  background: var(--green-900) !important;
+  padding: 1.5rem 1rem !important;
+  position: sticky !important;
+  top: 68px !important;
+  height: calc(100vh - 68px) !important;
+  overflow-y: auto !important;
+}
+
+.sidebar-logo {
+  padding: .5rem .75rem 1.5rem !important;
+  color: white !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: .5rem !important;
+}
+
+.sidebar-section-title {
+  font-size: .7rem !important;
+  font-weight: 700 !important;
+  color: rgba(255, 255, 255, .35) !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase !important;
+  padding: .5rem .75rem !important;
+  margin-top: 1rem !important;
+}
+
+.sidebar-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: .65rem !important;
+  padding: .6rem .75rem !important;
+  border-radius: var(--radius-sm) !important;
+  color: rgba(255, 255, 255, .65) !important;
+  font-size: .88rem !important;
+  font-weight: 500 !important;
+  transition: var(--transition) !important;
+  margin-bottom: 2px !important;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, .08) !important;
+  color: white !important;
+}
+
+.sidebar-link.active {
+  background: var(--green-600) !important;
+  color: white !important;
+}
+
+.sidebar-link .icon {
+  width: 20px !important;
+  text-align: center !important;
+  font-size: 1rem !important;
+}
+
+.sidebar-badge {
+  margin-right: auto !important;
+  background: var(--amber-400) !important;
+  color: white !important;
+  font-size: .68rem !important;
+  padding: .1rem .45rem !important;
+  border-radius: 99px !important;
+  font-weight: 700 !important;
+}
+
+.main-content {
+  flex: 1 !important;
+  padding: 2rem !important;
+  overflow-x: hidden !important;
+}
+
+/* Page Content Titles */
+.page-title {
+  font-family: var(--font-display) !important;
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: var(--green-900) !important;
+}
+
+.page-subtitle {
+  font-size: .9rem !important;
+  color: var(--neutral-500) !important;
+  margin-top: .2rem !important;
+}
+
+/* Table Styles */
+.table-wrap {
+  background: white !important;
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid rgba(34, 135, 79, .1) !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.data-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.data-table thead {
+  background: var(--green-50) !important;
+}
+
+.data-table th {
+  padding: .85rem 1.1rem !important;
+  text-align: right !important;
+  font-size: .78rem !important;
+  font-weight: 700 !important;
+  color: var(--green-700) !important;
+  letter-spacing: .04em !important;
+  text-transform: uppercase !important;
+  border-bottom: 1px solid var(--green-100) !important;
+}
+
+.data-table td {
+  padding: .85rem 1.1rem !important;
+  font-size: .9rem !important;
+  color: var(--neutral-700) !important;
+  border-bottom: 1px solid var(--neutral-100) !important;
+  vertical-align: middle !important;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none !important;
+}
+
+.data-table tbody tr:hover {
+  background: var(--green-50) !important;
+>>>>>>> 743a7cf9fc31d6bf3942f0e764ad7c41c42c93db
 }

@@ -518,187 +518,7 @@ select.input-field {
   background-position: left 1rem center;
 }
 
-/* ── Sidebar Layout ── */
-.sidebar-layout {
-  display: flex;
-  min-height: calc(100vh - 68px);
-}
-
-.sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  background: var(--green-900);
-  padding: 1.5rem 1rem;
-  position: sticky;
-  top: 68px;
-  height: calc(100vh - 68px);
-  overflow-y: auto;
-}
-
-.sidebar-logo {
-  padding: .5rem .75rem 1.5rem;
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-}
-
-.sidebar-section-title {
-  font-size: .7rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, .35);
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: .5rem .75rem;
-  margin-top: 1rem;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: .65rem;
-  padding: .6rem .75rem;
-  border-radius: var(--radius-sm);
-  color: rgba(255, 255, 255, .65);
-  font-size: .88rem;
-  font-weight: 500;
-  transition: var(--transition);
-  margin-bottom: 2px;
-}
-
-.sidebar-link:hover {
-  background: rgba(255, 255, 255, .08);
-  color: white;
-}
-
-.sidebar-link.active {
-  background: var(--green-600);
-  color: white;
-}
-
-.sidebar-link .icon {
-  width: 20px;
-  text-align: center;
-  font-size: 1rem;
-}
-
-.sidebar-badge {
-  margin-right: auto;
-  background: var(--amber-400);
-  color: white;
-  font-size: .68rem;
-  padding: .1rem .45rem;
-  border-radius: 99px;
-  font-weight: 700;
-}
-
-.main-content {
-  flex: 1;
-  padding: 2rem;
-  overflow-x: hidden;
-}
-
-/* ── Stat Cards ── */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: white;
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-  border: 1px solid rgba(34, 135, 79, .1);
-  box-shadow: var(--shadow-sm);
-}
-
-.stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  margin-bottom: .75rem;
-}
-
-.stat-value {
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--green-800);
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: .8rem;
-  color: var(--neutral-500);
-  margin-top: .2rem;
-}
-
-/* ── Page Title ── */
-.page-title {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--green-900);
-}
-
-.page-subtitle {
-  font-size: .9rem;
-  color: var(--neutral-500);
-  margin-top: .2rem;
-}
-
-/* ── Table ── */
-.table-wrap {
-  background: white;
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(34, 135, 79, .1);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table thead {
-  background: var(--green-50);
-}
-
-.data-table th {
-  padding: .85rem 1.1rem;
-  text-align: right;
-  font-size: .78rem;
-  font-weight: 700;
-  color: var(--green-700);
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--green-100);
-}
-
-.data-table td {
-  padding: .85rem 1.1rem;
-  font-size: .9rem;
-  color: var(--neutral-700);
-  border-bottom: 1px solid var(--neutral-100);
-  vertical-align: middle;
-}
-
-.data-table tr:last-child td {
-  border-bottom: none;
-}
-
-.data-table tbody tr:hover {
-  background: var(--green-50);
-}
-
+/* ── Plant Card ── */
 /* ── Plant Card ── */
 .plant-card {
   background: white;
@@ -1707,6 +1527,44 @@ select.input-field {
   flex: 1;
   height: 1px;
   background: var(--neutral-200);
+}
+
+/* ── Google OAuth Button ── */
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  width: 100%;
+  padding: .75rem 1rem;
+  border: 1.5px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--neutral-700);
+  font-size: .92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+}
+
+.btn-google:hover {
+  border-color: #4285F4;
+  background: #f8faff;
+  box-shadow: 0 2px 12px rgba(66, 133, 244, .15);
+  transform: translateY(-1px);
+  color: var(--neutral-800);
+  text-decoration: none;
+}
+
+.btn-google:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.btn-google svg {
+  flex-shrink: 0;
 }
 
 

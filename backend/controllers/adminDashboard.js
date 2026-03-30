@@ -13,9 +13,9 @@ const SucceededOrder = require('../models/succeededOrder');
 const catchAsync = require('../utils/catchAsync'); 
 
 exports.getAdminDashboard = catchAsync(async (req, res, next) => {
-    // 1. User stats
-    const totalUsers = await User.countDocuments({ role: 'user' });
-    const premiumUsers = await User.countDocuments({ role: 'user', premium: true });
+    // 1. User stats (counting anyone who isn't explicitly an admin to catch legacy users)
+    const totalUsers = await User.countDocuments({ role: { $ne: 'admin' } });
+    const premiumUsers = await User.countDocuments({ role: { $ne: 'admin' }, premium: true });
     
     // 2. Financial stats (Sales from Paid Payments/Orders)
     const successfulPayments = await Payment.find({ status: 'paid' });

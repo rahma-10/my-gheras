@@ -75,14 +75,14 @@ let verifyEmail = async (req, res) => {
 
 
 let getUsersNames = async (req, res) => {
-
     try {
-        const users = await userModel.find().select('firstName , email')
-        res.status(200).json(users)
-
-
+        const users = await userModel.find()
+            .select('-password -verificationCode -verificationCodeExpires')
+            .sort({ createdAt: -1 });
+        
+        res.status(200).json(users);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ status: 'fail', message: err.message });
     }
 }
 
@@ -131,20 +131,31 @@ let updateUser = async (req, res) => {
 //Abo Sofyan
 let deleteUser = async (req, res) => {
     try {
-        const userId = req.params.id
-        const deletedUser = await userModel.findByIdAndDelete(userId)
-        if (!deletedUser) {
+        const userId = req.params.id;
+
+        // Security: Prevent an admin from deleting themselves or other admins accidentally through this simple route
+        const userToDelete = await userModel.findById(userId);
+        if (!userToDelete) {
             return res.status(404).json({ message: "User not found!" });
         }
+
+        if (userToDelete.role === 'admin') {
+            return res.status(403).json({ message: "Cannot delete an admin account through this route." });
+        }
+
+        await userModel.findByIdAndDelete(userId);
+        
         res.status(200).json({
+            status: "success",
             message: "User deleted successfully",
             userId: userId
-        })
+        });
     } catch (err) {
         res.status(500).json({
+            status: "error",
             message: "Delete failed",
             error: err.message
-        })
+        });
     }
 }
 
@@ -175,7 +186,10 @@ let login = async (req, res) => {
             return res.status(401).json({ message: "Please verify your email first" })
         }
 
-        let token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.SECRET_KEY)
+        let token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role, username: user.username },
+            process.env.SECRET_KEY
+        )
         res.status(200).json({ token: token, username: username })
     } catch (error) {
         res.status(500).json(error.message)
@@ -303,15 +317,15 @@ let verifyEmailAndResetPassword = async (req, res) => {
 let googleAuthCallback = async (req, res) => {
     try {
         const user = req.user;
-        let token = jwt.sign({ id: user._id, email: user.email, role: user.role }, process.env.SECRET_KEY);
-        // Normally, for Google popup logins, you might redirect to front-end with token in URL 
-        // OR send back as JSON depending on your FE setup.
-        res.status(200).json({
-            message: "Login successful with Google",
-            token: token
-        });
+        let token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role, username: user.username },
+            process.env.SECRET_KEY
+        );
+        
+        // Redirect back to front-end (Angular) with token in query params
+        res.redirect(`http://localhost:4200/login?token=${token}`);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.redirect("http://localhost:4200/login?error=" + encodeURIComponent(error.message));
     }
 }
 

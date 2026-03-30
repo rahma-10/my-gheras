@@ -43,6 +43,14 @@ export class DashboardService {
     return this.http.post(`${this.baseUrl}/product/add`, data);
   }
 
+  updateProductAdmin(id: string, data: FormData): Observable<any> {
+    return this.http.put(`${this.baseUrl}/product/${id}`, data);
+  }
+
+  deleteProductAdmin(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/product/${id}`);
+  }
+
   addCategoryAdmin(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/category`, data);
   }
@@ -56,6 +64,7 @@ export class DashboardService {
     return this.http.delete(`${this.baseUrl}/plants/${id}`);
   }
 
+<<<<<<< HEAD
    // Post moderation (Admin)
   getPendingPosts(): Observable<any> {
     return this.http.get(`${this.baseUrl}/posts/pending`);
@@ -76,4 +85,31 @@ export class DashboardService {
     author: authorId
   });
 }
+=======
+  // Disease Admin
+  updateDiseaseAdmin(id: string, data: FormData | any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/diseases/${id}`, data);
+  }
+
+  deleteDiseaseAdmin(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/diseases/${id}`);
+  }
+
+  // Fertilizer Admin
+  updateFertilizerAdmin(id: string, data: FormData | any): Observable<any> {
+    return this.http.put(`${this.baseUrl}/fertilizers/${id}`, data);
+  }
+
+  deleteFertilizerAdmin(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/fertilizers/${id}`);
+  }
+
+  getUsersAdmin(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/users`);
+  }
+
+  deleteUserAdmin(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/users/${id}`);
+  }
+>>>>>>> 743a7cf9fc31d6bf3942f0e764ad7c41c42c93db
 }

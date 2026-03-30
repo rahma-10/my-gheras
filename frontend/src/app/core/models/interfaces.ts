@@ -67,15 +67,34 @@ export interface Fertilizer {
   usageInstructions: string;
 }
 
+// export interface Product {
+//   _id?: string;
+//   name: string;
+//   price: number;
+//   description: string;
+//   images: string;
+//   category: Category | string;
+//   stock: number;
+// }
+
 export interface Product {
-  _id?: string;
+  _id: string;
   name: string;
-  price: number;
   description: string;
-  imageUrl?: string;
-  category: Category | string;
+  category: Category;
+  price: number;
+  discountPercent: number;
+  finalPrice: number;
   stock: number;
+  images: string[];
+  relatedProducts: any[];
+  isActive: boolean;
+  costPrice: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
+
 
 export interface Category {
   _id?: string;
@@ -135,8 +154,12 @@ export interface Blog {
 }
 
 export interface DashboardStats {
-  totalUsers?: number;
-  totalOrders?: number;
-  totalRevenue?: number;
-  totalPlants?: number;
+  success?: boolean;
+  stats?: {
+    users?: { total: number; premium: number; regular: number };
+    financials?: { netProfit: number; totalRevenueEGP: number; totalSuccessfulPayments: number };
+    catalog?: { products: number; plants: number; diseases: number; fertilizers: number; categories: number; blogs: number };
+    community?: { posts: number; comments: number };
+    sales?: { soldProducts: number; deliveredOrders: number; pendingOrders: number };
+  };
 }
