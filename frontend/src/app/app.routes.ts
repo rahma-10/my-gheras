@@ -26,10 +26,15 @@ export const routes: Routes = [
   { path: 'shop', component: Shop },
   { path: 'shop/product/:id', component: ProductDetails },
   { path: 'forum', component: Forum },
+
+  // مسارات البلوجات
   { path: 'blog', component: Blog },
+  { path: 'blog/:slug', component: BlogDetailComponent },
+
   { path: 'dashboard', component: UserDashboard, canActivate: [authGuard] },
   { path: 'dashboard/admin', component: AdminDashboard, canActivate: [authGuard, adminGuard] },
   { path: 'dashboard/specialist', component: SpecialistDashboard, canActivate: [authGuard] },
   { path: 'dashboard/premium', component: PremiumDashboard, canActivate: [authGuard] },
+
   { path: '**', redirectTo: '' }
 ];

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const blogSchema = new mongoose.Schema({
     title: {
@@ -43,16 +44,17 @@ const blogSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-blogSchema.pre("save", function (next) {
+blogSchema.pre("save", function () {
+    if (!this.isModified("title")) return;
 
-    if (!this.isModified("title")) return next();
-
-    this.slug = this.title
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "")
-        .replace(/\s+/g, "-");
-
- 
+    if (this.title) {
+        this.slug = this.title
+            .toLowerCase()
+            .replace(/[^\u0600-\u06FF\w\s]/g, "")
+            .replace(/\s+/g, "-");
+    } else {
+        this.slug = "blog-" + Date.now();
+    }
 });
 
 module.exports = mongoose.model("Blog", blogSchema);
