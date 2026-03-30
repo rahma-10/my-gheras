@@ -85,19 +85,9 @@
             </div>
         }
 
-        <!-- Step 3: Payment Iframe (Paymob) -->
-        @if (checkoutStep() === 'iframe') {
-            <div style="height: 100%; display: flex; flex-direction: column;">
-                <button class="back-btn" (click)="setStep('shipping')">← تعديل البيانات</button>
-                <iframe [src]="iframeUrl()!" class="iframe-container" style="flex:1; border:none;"></iframe>
-                <div style="margin-top:1rem; font-size: 0.8rem; color: var(--neutral-500); text-align: center;">
-                    الرجاء إتمام الدفع لتأكيد طلبك.
-                </div>
-            </div>
-        }
     </div>
 
-    <div class="cart-footer" *ngIf="checkoutStep() !== 'iframe'">
+    <div class="cart-footer">
         <div class="cart-total">
             <span>الإجمالي</span>
             <span style="color:var(--green-700)">{{ storeService.cartTotalAmount() }} ج.م</span>

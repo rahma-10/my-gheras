@@ -1,70 +1,45 @@
-import { Component, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StoreService } from '../../services/store.service';
-import { Router, RouterModule } from '@angular/router';
+import { StoreService } from '../../../core/services/store.service';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { AlertService } from '../../services/alert.service';
+import { AlertService } from '../../../core/services/alert.service';
 
 @Component({
-    selector: 'app-cart',
+    selector: 'app-checkout',
     standalone: true,
     imports: [CommonModule, RouterModule, FormsModule],
-    templateUrl: './cart.html',
-    styleUrl: './cart.css',
+    templateUrl: './checkout.html',
+    styleUrl: './checkout.css',
 })
-export class CartComponent {
+export class Checkout implements OnInit {
     public storeService = inject(StoreService);
     private alertService = inject(AlertService);
     private router = inject(Router);
 
-    // Checkout Steps: 'cart' | 'shipping' | 'payment-selection' | 'processing' | 'iframe'
-    checkoutStep = signal<string>('cart');
+    checkoutStep = signal<string>('shipping');
     
-    // Shipping Data
     phone = signal<string>('');
     city = signal<string>('');
     street = signal<string>('');
-    paymentMethod = signal<string>('cash'); // 'cash' | 'card'
+    paymentMethod = signal<string>('cash');
     
-    // Payment Loading State
     orderLoading = signal<boolean>(false);
 
-    toggleCart() {
-        this.storeService.toggleCart();
-        if (!this.storeService.isCartOpen()) {
-            this.checkoutStep.set('cart');
+    ngOnInit() {
+        // Redirect if cart is empty
+        if (this.storeService.cartItems().length === 0) {
+            this.storeService.getCart().subscribe(cart => {
+                if (!cart || (cart.items && cart.items.length === 0)) {
+                    this.alertService.show('سلة التسوق فارغة', 'info');
+                    this.router.navigate(['/shop']);
+                }
+            });
         }
     }
 
     setStep(step: string) {
         this.checkoutStep.set(step);
-    }
-
-    updateQty(item: any, delta: number) {
-        const productId = item.product?._id;
-        const currentPrice = item.product?.finalPrice || item.product?.price || item.price;
-        const newQty = item.quantity + delta;
-        if (newQty < 1) {
-            this.removeItem(item);
-        } else {
-            this.storeService.updateCartItem(productId, newQty, currentPrice).subscribe();
-        }
-    }
-
-    removeItem(item: any) {
-        const productId = item.product?._id;
-        this.storeService.removeCartItem(productId).subscribe();
-    }
-
-    clearCart() {
-        this.storeService.clearCart().subscribe(() => {
-            this.alertService.show('تم إفراغ العربة بنجاح');
-        });
-    }
-
-    proceedToCheckout() {
-        if (this.storeService.cartItems().length === 0) return;
-        this.checkoutStep.set('shipping');
     }
 
     placeOrder() {
@@ -91,8 +66,7 @@ export class CartComponent {
                 } else {
                     this.alertService.show('تم تسجيل طلبك بنجاح! شكراً لتعاملك معنا ✅');
                     this.storeService.clearCart().subscribe();
-                    this.checkoutStep.set('cart');
-                    setTimeout(() => this.storeService.isCartOpen.set(false), 2000);
+                    setTimeout(() => this.router.navigate(['/shop']), 2000);
                     this.orderLoading.set(false);
                 }
             },
@@ -108,7 +82,6 @@ export class CartComponent {
     initiateCardPayment(orderId: string) {
         this.router.navigate(['/shop/checkout/payment', orderId]);
         this.orderLoading.set(false);
-        this.toggleCart(); // Close cart sidebar
     }
 
     getImageUrl(path: string) {

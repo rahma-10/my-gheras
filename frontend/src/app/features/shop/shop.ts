@@ -17,6 +17,7 @@ interface LocalProduct {
   rating: number;
   reviews: number;
   emoji: string;
+  image?: string;
   color: string;
   isBestSeller?: boolean;
 }
@@ -54,6 +55,7 @@ export class Shop implements OnInit {
         rating: 4 + Math.random(),
         reviews: Math.floor(Math.random() * 100) + 10,
         emoji: '🌿',
+        image: p.images?.[0] || '',
         color: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
         isBestSeller: p.stock < 10 && p.stock > 0
       })));
@@ -117,5 +119,11 @@ export class Shop implements OnInit {
   getStars(rating: number) {
     const r = Math.round(rating);
     return '★'.repeat(r) + '☆'.repeat(5 - r);
+  }
+
+  getImageUrl(path: string) {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    return `http://localhost:3000/${path}`;
   }
 }
